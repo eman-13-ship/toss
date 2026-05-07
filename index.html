@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Toss App</title>
+    <style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    max-width: 400px;
+    width: 100%;
+}
+
+.coin {
+    font-size: 120px;
+    margin: 20px 0;
+    transition: transform 0.6s ease-in-out;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.coin.spin {
+    animation: flip 0.6s ease-in-out;
+}
+
+@keyframes flip {
+    0% { transform: rotateY(0deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.1); }
+    100% { transform: rotateY(360deg) scale(1); }
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 18px;
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    margin: 10px;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #45a049, #4CAF50);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+#result {
+    font-size: 28px;
+    margin: 20px 0;
+    font-weight: bold;
+    color: #555;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #666;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+#history {
+    list-style-type: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+#history li {
+    background: linear-gradient(90deg, #f0f0f0, #e0e0e0);
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+#history li:nth-child(even) {
+    background: linear-gradient(90deg, #e8f5e8, #dcedc8);
+}
+
+#history li:hover {
+    background: linear-gradient(90deg, #d0d0d0, #c0c0c0);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Coin Toss Simulator</h1>
+        <div id="coin" class="coin">🪙</div>
+        <button id="tossButton">Toss the Coin!</button>
+        <p id="result"></p>
+        <h2>Toss History</h2>
+        <ul id="history"></ul>
+        <button id="clearButton">Clear History</button>
+    </div>
+    <script>
+document.getElementById('tossButton').addEventListener('click', function() {
+    const coin = document.getElementById('coin');
+    const result = document.getElementById('result');
+    const history = document.getElementById('history');
+    
+    // Add spin animation
+    coin.classList.add('spin');
+    
+    // Remove spin after animation
+    setTimeout(() => {
+        coin.classList.remove('spin');
+        
+        // Random result
+        const isHeads = Math.random() < 0.5;
+        let outcome;
+        if (isHeads) {
+            coin.textContent = 'Heads';
+            result.textContent = 'You got Heads!';
+            outcome = 'Heads';
+        } else {
+            coin.textContent = 'Tails';
+            result.textContent = 'You got Tails!';
+            outcome = 'Tails';
+        }
+        
+        // Add to history
+        const li = document.createElement('li');
+        li.textContent = outcome;
+        history.appendChild(li);
+    }, 600);
+});
+
+document.getElementById('clearButton').addEventListener('click', function() {
+    const history = document.getElementById('history');
+    history.innerHTML = '';
+});
+    </script>
+</body>
+</html>
